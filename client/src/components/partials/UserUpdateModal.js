@@ -16,8 +16,8 @@ class UserUpdateModal extends React.Component {
         this.state = {
             id: this.props.record.id,
             name: this.props.record.name,
-            email: this.props.record.email,
-            password: '',
+            address: this.props.record.address,
+            
             errors: {},
         };
     }
@@ -27,7 +27,7 @@ class UserUpdateModal extends React.Component {
             this.setState({
                 id: nextProps.record.id,
                 name: nextProps.record.name,
-                email: nextProps.record.email,
+                address: nextProps.record.address,
             })
         }
         if (nextProps.errors) {
@@ -52,7 +52,7 @@ class UserUpdateModal extends React.Component {
             this.setState({ name: e.target.value });
         }
         if (e.target.id === 'user-update-email') {
-            this.setState({ email: e.target.value });
+            this.setState({ address: e.target.value });
         }
         if (e.target.id === 'user-update-password') {
             this.setState({ password: e.target.value });
@@ -64,8 +64,8 @@ class UserUpdateModal extends React.Component {
         const newUser = {
             _id: this.state.id,
             name: this.state.name,
-            email: this.state.email,
-            password: this.state.password
+            address: this.state.address,
+            
         };
         this.props.updateUser(newUser);
     };
@@ -108,23 +108,23 @@ class UserUpdateModal extends React.Component {
                                     </div>
                                     <div className="row mt-2">
                                         <div className="col-md-3">
-                                            <label htmlFor="email">Email</label>
+                                            <label htmlFor="email">Address</label>
                                         </div>
                                         <div className="col-md-9">
                                             <input
                                                 onChange={this.onChange}
-                                                value={this.state.email}
-                                                error={errors.email}
-                                                id="user-update-email"
-                                                type="email"
+                                                value={this.state.address}
+                                                error={errors.address}
+                                                id="user-update-address"
+                                                type="text"
                                                 className={classnames("form-control", {
-                                                    invalid: errors.email
+                                                    invalid: errors.address
                                                 })}
                                             />
-                                            <span className="text-danger">{errors.email}</span>
+                                            <span className="text-danger">{errors.address}</span>
                                         </div>
                                     </div>
-                                    <div className="row mt-2">
+                                    {/* <div className="row mt-2">
                                         <div className="col-md-3">
                                             <label htmlFor="password">Password</label>
                                         </div>
@@ -142,7 +142,7 @@ class UserUpdateModal extends React.Component {
                                             />
                                             <span className="text-danger">{errors.password}</span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </form>
                             </div>
                             <div className="modal-footer">
@@ -151,7 +151,7 @@ class UserUpdateModal extends React.Component {
                                     form="update-user"
                                     type="submit"
                                     className="btn btn-primary">
-                                    Update User
+                                    Update Survey
                                 </button>
                             </div>
                         </div>

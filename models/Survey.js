@@ -1,16 +1,24 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const UserSchema = new Schema({
+const SurveySchema = new Schema({
    
-    email: {
+    name: {
         type: String,
         required: true
     },
-    user_type: {
+    address: {
         type: String,
         required: true
     },
-    password: {
+    age: {
+        type: String,
+        required: true
+    },
+    occupation: {
+        type: String,
+        required: true
+    },
+    education: {
         type: String,
         required: true
     },
@@ -20,12 +28,12 @@ const UserSchema = new Schema({
     }
 });
 
-UserSchema.virtual('id').get(function(){
+SurveySchema.virtual('id').get(function(){
     return this._id.toHexString();
 });
 
-UserSchema.set('toJSON', {
+SurveySchema.set('toJSON', {
     virtuals: true
 });
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = Survey = mongoose.model("surveys", SurveySchema);

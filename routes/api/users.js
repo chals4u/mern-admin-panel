@@ -7,7 +7,7 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const validateUpdateUserInput = require('../../validation/updateUser');
 const User = require('../../models/User');
-
+const Survey = require('../../models/Survey');
 router.post('/user-add', (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -36,11 +36,45 @@ router.post('/user-add', (req, res) => {
         }
     });
 });
+router.post('/addsurvey', (req, res) => {
+    
+    Survey.findOne({ name: req.body.name }).then(survey => {
+        if (survey) {
+            return res.status(400).json({ messsage: 'Survey already exists' });
+        } else {
+            const newUser = new Survey({
+                name: req.body.name,
+                address: req.body.address,
+                age: req.body.age,
+                occupation: req.body.occupation,
+                education: req.body.education,
+            });
+            // bcrypt.genSalt(10, (err, salt) => {
+            //     bcrypt.hash(newUser.password, salt, (err, hash) => {
+            //         if (err) throw err;
+            //         newUser.password = hash;
+                    newUser
+                        .save()
+                        .then(survey => {
+                            return res.status(200).json({message: 'Survey added successfully. '})
+                        }).catch(err => console.log(err));
+               // });
+          //  });
+        }
+    });
+});
 
 router.post('/user-data', (req, res) => {
     User.find({}).select(['-password']).then(user => {
         if (user) {
             return res.status(200).send(user);
+        }
+    });
+});
+router.post('/surveylist', (req, res) => {
+    Survey.find({}).select(['name','address']).then(survey => {
+        if (survey) {
+            return res.status(200).send(survey);
         }
     });
 });
@@ -83,6 +117,34 @@ router.post('/user-update', (req, res) => {
     });
 });
 
+router.post('/register', (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    User.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+            return res.status(400).json({ email: 'Email already exists' });
+        } else {
+            const newUser = new User({
+              
+                email: req.body.email,
+                password: req.body.password
+            });
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser
+                        .save()
+                        .then(user => {
+                            return res.status(200).json({message: 'User added successfully. Refreshing data...'})
+                        }).catch(err => console.log(err));
+                });
+            });
+        }
+    });
+});
 router.post('/login', (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {

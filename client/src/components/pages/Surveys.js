@@ -12,7 +12,7 @@ import UserAddModal from "../partials/UserAddModal";
 import UserUpdateModal from "../partials/UserUpdateModal";
 import { toast, ToastContainer} from "react-toastify";
 
-class Users extends Component {
+class Surveys extends Component {
 
     constructor(props) {
         super(props);
@@ -33,12 +33,13 @@ class Users extends Component {
                 sortable: true,
             },
             {
-                key: "email",
-                text: "Email",
-                className: "email",
+                key: "address",
+                text: "Address",
+                className: "address",
                 align: "left",
                 sortable: true
             },
+           
             {
                 key: "date",
                 text: "Date",
@@ -78,8 +79,8 @@ class Users extends Component {
         this.config = {
             page_size: 10,
             length_menu: [ 10, 20, 50 ],
-            filename: "Users",
-            no_data_text: 'No user found!',
+            filename: "Surveys",
+            no_data_text: 'No Surveys found!',
             button: {
                 excel: true,
                 print: true,
@@ -110,16 +111,15 @@ class Users extends Component {
             currentRecord: {
                 id: '',
                 name: '',
-                email: '',
-                password: '',
-                password2: '',
+                address: '',
+               
             }
         };
 
         this.getData = this.getData.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount() {alert()
         this.getData()
     };
 
@@ -129,7 +129,7 @@ class Users extends Component {
 
     getData() {
         axios
-            .post("/api/user-data")
+            .post("/api/surveylist")
             .then(res => {
                 this.setState({ records: res.data})
             })
@@ -169,8 +169,8 @@ class Users extends Component {
                     <div id="page-content-wrapper">
                         <div className="container-fluid">
                             <button className="btn btn-link mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList}/></button>
-                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#add-user-modal"><FontAwesomeIcon icon={faPlus}/> Add User</button>
-                            <h1 className="mt-2 text-primary">Users List</h1>
+                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#add-user-modal"><FontAwesomeIcon icon={faPlus}/> Add Survey</button>
+                            <h1 className="mt-2 text-primary">Surveys List</h1>
                             <ReactDatatable
                                 config={this.config}
                                 records={this.state.records}
@@ -187,7 +187,7 @@ class Users extends Component {
 
 }
 
-Users.propTypes = {
+Surveys.propTypes = {
     auth: PropTypes.object.isRequired,
 };
 
@@ -198,4 +198,4 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps
-)(Users);
+)(Surveys);

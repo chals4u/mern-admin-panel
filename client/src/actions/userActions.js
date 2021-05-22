@@ -20,7 +20,21 @@ export const addUser = (userData, history) => dispatch => {
         })
     );
 };
-
+export const addSurvey = (userData, history) => dispatch => {
+    axios
+        .post("/api/addsurvey", userData)
+        .then(res =>
+            dispatch({
+                type: USER_ADD,
+                payload: res,
+            })
+        ).catch(err =>
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+    );
+};
 
 export const updateUser = (userData) => dispatch => {
     axios
